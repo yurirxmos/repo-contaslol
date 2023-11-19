@@ -26,12 +26,13 @@ small {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    gap: 5px;
 }
 
 .logo h1 {
     margin: 0;
     font-size: 40px;
-    font-weight: 400;
+    font-weight: 200;
 }
 
 .logo h2 {
@@ -39,6 +40,11 @@ small {
     color: var(--primaria);
     font-size: 40px;
     font-weight: 1000;
+}
+
+.logo img {
+    width: 30px;
+    margin-right: 1rem;
 }
 
 .header {
@@ -53,10 +59,6 @@ small {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-}
-
-.header img {
-    width: 30px;
 }
 
 #contaBloco {
