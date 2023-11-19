@@ -16,7 +16,7 @@ html {
 
 small {
     font-size: 10px;
-    position: absolute;
+    position: fixed;
     top: 20px;
     left: 20px;
 }
@@ -119,13 +119,13 @@ small {
     text-transform: uppercase;
     font-weight: 1000;
     color: rgb(255, 255, 255);
-    background-color: green;
+    background-color: rgb(56, 56, 56);
     padding: 6px 2rem;
     border-radius: 8px;
 }
 
 .acoes button:hover {
-    opacity: 60%;
-    transition: 300ms;
+    background-color: var(--primaria);
+    transition: 500ms;
     cursor: pointer;
 }

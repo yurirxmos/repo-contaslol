@@ -159,3 +159,83 @@ function traduzirElo(tier, rank) {
 
 // Carregar os dados salvos ao iniciar a página
 carregarDadosSalvos();
+
+// Função para baixar as informações no formato .txt
+function baixarInformacoes() {
+    var contasSalvas = JSON.parse(localStorage.getItem('contasLOL')) || [];
+    var texto = '';
+
+    contasSalvas.forEach(function (contaSalva) {
+        texto += 'Nick: ' + contaSalva.nick + '\n';
+        texto += 'Login: ' + contaSalva.login + '\n';
+        texto += 'Senha: ' + contaSalva.senha + '\n';
+        texto += 'Elo: ' + contaSalva.elo + '\n\n';
+    });
+
+    var blob = new Blob([texto], { type: 'text/plain' });
+    var link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'informacoes_contas.txt';
+    link.click();
+}
+
+function ocultarSenhas() {
+    var senhas = document.querySelectorAll('.senha');
+
+    senhas.forEach(function (senha) {
+        if (senha.type === 'password') {
+            senha.type = 'text';
+        } else {
+            senha.type = 'password';
+        }
+    });
+
+    var botao = document.querySelector('#botaoOcultar');
+    if (botao.textContent === 'OCULTAR') {
+        botao.textContent = 'MOSTRAR';
+    } else {
+        botao.textContent = 'OCULTAR';
+    }
+}
+
+// Função para carregar as informações a partir de um arquivo
+function carregarInformacoesDoArquivo() {
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.txt';
+    input.addEventListener('change', function () {
+        var file = input.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var content = e.target.result;
+                preencherCamposComInformacoes(content);
+            };
+            reader.readAsText(file);
+        }
+    });
+    input.click();
+}
+
+// Função para preencher os campos com as informações do arquivo
+function preencherCamposComInformacoes(content) {
+    var contas = content.split('\n\n');
+
+    contas.forEach(function (conta) {
+        var linhas = conta.split('\n');
+        var dadosConta = {};
+
+        linhas.forEach(function (linha) {
+            var [chave, valor] = linha.split(': ');
+            if (chave && valor) {
+                dadosConta[chave.toLowerCase()] = valor;
+            }
+        });
+
+        adicionarConta(dadosConta);
+    });
+}
+
+// Event listener para o botão de upload
+var uploadButton = document.getElementById('uploadButton');
+uploadButton.addEventListener('click', carregarInformacoesDoArquivo);
