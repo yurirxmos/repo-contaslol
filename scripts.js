@@ -17,9 +17,7 @@ function salvarModificacoes() {
     console.log('Contas salvas:', contas);
 
     // Após salvar, pesquisar o Elo para todos os RiotIDs
-    contas.forEach(function (conta) {
-        pesquisarJogador(conta.nick);
-    });
+    pesquisarElos();
 }
 
 // Função para carregar os dados do localStorage e preencher os campos
@@ -29,6 +27,9 @@ function carregarDadosSalvos() {
     contasSalvas.forEach(function (contaSalva) {
         adicionarConta(contaSalva);
     });
+
+    // Após carregar os dados salvos, pesquisar o Elo para todos os RiotIDs
+    pesquisarElos();
 }
 
 // Função para criar uma nova conta e preenchê-la com dados (se fornecidos)
@@ -89,30 +90,26 @@ function adicionarConta(dadosConta) {
 function excluirConta(idConta) {
     var contaASerExcluida = document.getElementById(idConta);
     contaASerExcluida.parentNode.removeChild(contaASerExcluida);
+
+    // Após excluir a conta, pesquisar o Elo para todos os RiotIDs
+    pesquisarElos();
 }
 
-// Carregar os dados salvos ao iniciar a página
-carregarDadosSalvos();
+// Função para pesquisar o Elo de todas as contas
+function pesquisarElos() {
+    var contaElements = document.querySelectorAll('.conta');
 
-function pesquisarJogador() {
+    contaElements.forEach(function (contaElement) {
+        var nickInput = contaElement.querySelector('.nick');
+        var eloInput = contaElement.querySelector('.elo');
+
+        pesquisarJogador(nickInput.value, eloInput);
+    });
+}
+
+// Função para pesquisar o Elo do jogador
+function pesquisarJogador(nick, eloInput) {
     const API_KEY = "RGAPI-7baeb44a-4ade-4482-b126-2bb126cdbe11";
-    event.preventDefault();
-
-    const elosTraducoes = {
-        IRON: 'Ferro',
-        BRONZE: 'Bronze',
-        SILVER: 'Prata',
-        GOLD: 'Ouro',
-        PLATINUM: 'Platina',
-        DIAMOND: 'Diamante',
-        MASTER: 'MESTRE',
-        GRANDMASTER: 'GRÃO-MESTRE',
-        CHALLENGER: 'DESAFIANTE'
-    };
-
-    // Obtém o nick do jogador do input RiotID
-    var nickInput = document.querySelector('.nick');
-    var nick = nickInput.value;
 
     fetch('https://br1.api.riotgames.com/lol/summoner/v4/summoners/by-name/' + encodeURIComponent(nick) + '?api_key=' + API_KEY)
         .then(response => response.json())
@@ -123,12 +120,12 @@ function pesquisarJogador() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.length > 0) {
-                        var elo = data[0].tier;
-                        var eloTraduzido = elosTraducoes[elo.toUpperCase()];
+                        var tier = data[0].tier;
+                        var rank = data[0].rank;
+                        var eloTraduzido = traduzirElo(tier, rank);
 
                         // Preencher o campo de elo desativado
-                        var campoElo = document.querySelector('.elo');
-                        campoElo.value = eloTraduzido;
+                        eloInput.value = eloTraduzido;
                     } else {
                         console.log('O jogador não tem entradas de liga');
                     }
@@ -142,3 +139,23 @@ function pesquisarJogador() {
         });
 }
 
+// Função para traduzir o elo para o formato desejado
+function traduzirElo(tier, rank) {
+    const elosTraducoes = {
+        IRON: 'Ferro',
+        BRONZE: 'Bronze',
+        SILVER: 'Prata',
+        GOLD: 'Ouro',
+        PLATINUM: 'Platina',
+        EMERALD: 'Esmeralda',
+        DIAMOND: 'Diamante',
+        MASTER: 'Mestre',
+        GRANDMASTER: 'Grão-Mestre',
+        CHALLENGER: 'Desafiante'
+    };
+
+    return elosTraducoes[tier.toUpperCase()] + ' ' + rank;
+}
+
+// Carregar os dados salvos ao iniciar a página
+carregarDadosSalvos();
