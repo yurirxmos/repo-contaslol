@@ -4,103 +4,30 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="./style.css" />
     <title>Gerenciador de Contas</title>
   </head>
   <body>
-    <div id="contaBloco">
-      <h2>Contas</h2>
+    <div class="header">
+        <img src="./logo.png">
+        <h1>REPO</h1>
+        <h2>CONTASLOL</h2>
 
-      <div class="conta" id="conta1">
-        <label for="nick">RiotID:</label>
-        <input type="text" class="nick" placeholder="RiotID#00000" />
-
-        <label for="login">Login:</label>
-        <input type="text" class="login" placeholder="Login" />
-
-        <label for="senha">Senha:</label>
-        <input type="password" class="senha" placeholder="Senha" />
-
-        <label for="elo">Elo:</label>
-        <input type="text" class="elo" disabled />
-
-        <button onclick="excluirConta('conta1')">X</button>
-      </div>
+        
     </div>
 
-    <button onclick="adicionarConta()">+</button>
-    <button onclick="salvarModificacoes()">Salvar Modificações</button>
+    <small>developed with <b style="color: #e7be08;"><3</b> <br>by @yurirxmos</small>
 
-    <script>
-      // Função para armazenar as modificações nos campos, exceto o Elo
-      function salvarModificacoes() {
-        var contas = [];
-        var contaElements = document.querySelectorAll('.conta');
+    <div id="contaBloco">
+      <h2>Adicione as contas que você deseja <b style="color: #e7be08;">organizar</b></h2>
+    </div>
 
-        contaElements.forEach(function (contaElement) {
-          var conta = {
-            nick: contaElement.querySelector('.nick').value,
-            login: contaElement.querySelector('.login').value,
-            senha: contaElement.querySelector('.senha').value,
-          };
+    <div class="acoes">
+        <button onclick="adicionarConta()">+</button>
+        <button onclick="salvarModificacoes()">Salvar</button>
+    </div>
+    
 
-          contas.push(conta);
-        });
-
-        localStorage.setItem('contasLOL', JSON.stringify(contas));
-        console.log('Contas salvas:', contas);
-      }
-
-      // Função para criar uma nova conta sem copiar os dados da anterior
-      function adicionarConta() {
-        var novoID = 'conta' + (document.querySelectorAll('.conta').length + 1);
-        var novoConta = document.createElement('div');
-        novoConta.className = 'conta';
-        novoConta.id = novoID;
-
-        var labels = ['RiotID:', 'Login:', 'Senha:'];
-        var classes = ['nick', 'login', 'senha'];
-
-        for (var i = 0; i < labels.length; i++) {
-          var label = document.createElement('label');
-          label.textContent = labels[i];
-
-          var input = document.createElement('input');
-          input.type = (i === 2) ? 'password' : 'text';
-          input.className = classes[i];
-          input.placeholder = labels[i];
-
-          novoConta.appendChild(label);
-          novoConta.appendChild(input);
-        }
-
-        var eloLabel = document.createElement('label');
-        eloLabel.textContent = 'Elo:';
-
-        var eloInput = document.createElement('input');
-        eloInput.type = 'text';
-        eloInput.className = 'elo';
-        eloInput.disabled = true;
-
-        novoConta.appendChild(eloLabel);
-        novoConta.appendChild(eloInput);
-
-        var excluirButton = document.createElement('button');
-        excluirButton.textContent = 'X';
-        excluirButton.onclick = function() {
-          excluirConta(novoID);
-        };
-
-        novoConta.appendChild(excluirButton);
-
-        document.getElementById('contaBloco').appendChild(novoConta);
-      }
-
-      // Função para excluir uma conta
-      function excluirConta(idConta) {
-        var contaASerExcluida = document.getElementById(idConta);
-        contaASerExcluida.parentNode.removeChild(contaASerExcluida);
-        salvarModificacoes(); // Salva as modificações após a exclusão
-      }
-    </script>
+    <script src="/scripts.js"></script>
   </body>
 </html>

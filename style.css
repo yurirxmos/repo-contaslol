@@ -1,0 +1,130 @@
+:root {
+    --primaria: rgb(221, 181, 0);
+}
+
+html {
+    position: relative;
+    font-family: 'Inter';
+    background-color: #232323;
+    color: white;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('/Inter.ttf') format('truetype');
+}
+
+small {
+    font-size: 10px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.header img {
+    width: 30px;
+}
+
+.header h1 {
+    font-size: 40px;
+    font-weight: 400;
+}
+
+.header h2 {
+    color: var(--primaria);
+    font-size: 40px;
+    font-weight: 1000;
+}
+
+#contaBloco {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#contaBloco h2 {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+#contaBloco label {
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.conta {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+}
+
+.conta input {
+    width: 120px;
+    margin-right: 1rem;
+    margin-left: 0.3rem;
+    padding: 5px;
+    background-color: transparent;
+    border: none;
+    border-bottom: solid 1px var(--primaria);
+    color: white;
+}
+
+.conta input:focus {
+    outline: none;
+}
+
+.conta button {
+    font-family: 'Inter';
+    border: none;
+    text-transform: uppercase;
+    font-weight: 1000;
+    color: rgb(255, 255, 255);
+    background-color: #800505;
+    padding: 5px 15px;
+    border-radius: 8px;
+}
+
+.conta button:hover {
+    opacity: 60%;
+    transition: 300ms;
+    cursor: pointer;
+}
+
+.acoes {
+    margin: 2rem;
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.acoes button {
+    font-family: 'Inter';
+    border: none;
+    text-transform: uppercase;
+    font-weight: 1000;
+    color: rgb(255, 255, 255);
+    background-color: green;
+    padding: 6px 2rem;
+    border-radius: 8px;
+}
+
+.acoes button:hover {
+    opacity: 60%;
+    transition: 300ms;
+    cursor: pointer;
+}
