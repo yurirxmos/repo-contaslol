@@ -85,11 +85,15 @@ small {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 1rem;
+    background-color: rgb(24, 24, 24);
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 0.3rem;
 }
 
 .conta input {
     width: 120px;
+    font-family: 'Inter';
     text-align: center;
     margin-right: 1rem;
     margin-left: 0.3rem;
