@@ -39,25 +39,55 @@ function adicionarConta(dadosConta) {
     novoConta.className = 'conta';
     novoConta.id = novoID;
 
-    var labels = ['RiotID', 'Login', 'Senha'];
-    var classes = ['nick', 'login', 'senha'];
+    var campos = [
+        { label: 'RiotID', classe: 'nick' },
+        { label: 'Login', classe: 'login' },
+        { label: 'Senha', classe: 'senha' }
+    ];
 
-    for (var i = 0; i < labels.length; i++) {
+    campos.forEach(function (campo) {
+        var divCampo = document.createElement('div');
+
+        // Adicionar div para a label e o botão
+        var divLabelBotao = document.createElement('div');
+
         var label = document.createElement('label');
-        label.textContent = labels[i];
+        label.textContent = campo.label;
+        divLabelBotao.appendChild(label);
 
-        var input = document.createElement('input');
-        input.type = 'text';
-        input.className = classes[i];
-
-        // Preencher os campos se dados foram fornecidos
-        if (dadosConta && dadosConta[classes[i]]) {
-            input.value = dadosConta[classes[i]];
+        // Adicionar botão "Copiar" após o campo de login e senha
+        if (campo.classe === 'login' || campo.classe === 'senha') {
+            var copiarButton = document.createElement('button');
+            copiarButton.innerHTML = '<img src="/img/clipboard.png" />'
+            copiarButton.className = 'clipboard';
+            copiarButton.setAttribute('data-type', campo.classe);
+            copiarButton.onclick = function () {
+                copiarParaClipboard(this.getAttribute('data-type'), novoConta);
+            };
+            divLabelBotao.appendChild(copiarButton);
         }
 
-        novoConta.appendChild(label);
-        novoConta.appendChild(input);
-    }
+        divCampo.appendChild(divLabelBotao);
+
+        // Adicionar div para o input
+        var divInput = document.createElement('div');
+        var input = document.createElement('input');
+        input.type = 'text';
+        input.className = campo.classe;
+
+        // Preencher os campos se dados foram fornecidos
+        if (dadosConta && dadosConta[campo.classe]) {
+            input.value = dadosConta[campo.classe];
+        }
+
+        divInput.appendChild(input);
+
+        divCampo.appendChild(divInput);
+        novoConta.appendChild(divCampo);
+    });
+
+    // Adicionar campo de Elo
+    var divElo = document.createElement('div');
 
     var eloLabel = document.createElement('label');
     eloLabel.textContent = 'Elo';
@@ -72,11 +102,15 @@ function adicionarConta(dadosConta) {
         eloInput.value = dadosConta.elo;
     }
 
-    novoConta.appendChild(eloLabel);
-    novoConta.appendChild(eloInput);
+    divElo.appendChild(eloLabel);
+    divElo.appendChild(eloInput);
 
+    novoConta.appendChild(divElo);
+
+    // Adicionar botão de exclusão
     var excluirButton = document.createElement('button');
     excluirButton.textContent = 'X';
+    excluirButton.className = 'excluir';
     excluirButton.onclick = function () {
         excluirConta(novoID);
     };
@@ -84,6 +118,51 @@ function adicionarConta(dadosConta) {
     novoConta.appendChild(excluirButton);
 
     document.getElementById('contaBloco').appendChild(novoConta);
+}
+
+
+
+
+// Função para copiar o valor para a área de transferência
+function copiarParaClipboard(tipo, divConta) {
+    var campo;
+    if (tipo === 'login' || tipo === 'senha') {
+        campo = divConta.querySelector('.' + tipo);
+    }
+
+    // Verificar se o campo foi encontrado
+    if (campo) {
+        // Criar um elemento de input temporário
+        var inputTemporario = document.createElement('input');
+        inputTemporario.setAttribute('value', campo.value);
+
+        // Adicionar o elemento de input temporário ao documento
+        document.body.appendChild(inputTemporario);
+
+        // Selecionar e copiar o conteúdo do elemento de input
+        inputTemporario.select();
+        document.execCommand('copy');
+
+        // Remover o elemento de input temporário
+        document.body.removeChild(inputTemporario);
+
+        // Exibir mensagem temporária
+        exibirAlertaTemporario('Texto copiado para a área de transferência.', 3000);
+    }
+}
+
+// Função para exibir um alerta temporário acima de contaBloco
+function exibirAlertaTemporario(mensagem, tempo) {
+    var alerta = document.createElement('div');
+    alerta.textContent = mensagem;
+    alerta.className = 'alertaTemporario';
+
+    // Inserir a div alerta-temporario acima de contaBloco
+    document.getElementById('contaBloco').parentNode.insertBefore(alerta, document.getElementById('contaBloco'));
+
+    setTimeout(function () {
+        document.getElementById('contaBloco').parentNode.removeChild(alerta);
+    }, tempo);
 }
 
 // Função para excluir uma conta

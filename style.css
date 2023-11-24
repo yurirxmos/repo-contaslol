@@ -61,6 +61,20 @@ small {
     align-items: center;
 }
 
+.alertaTemporario {
+    position: fixed;
+    text-align: center;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    font-size: 12px;
+    background-color: #008000;
+    padding: 0.7rem;
+    width: 100%;
+    z-index: 1000;
+}
+
 #contaBloco {
     margin-top: 10rem;
     display: flex;
@@ -95,7 +109,6 @@ small {
     width: 120px;
     font-family: 'Inter';
     text-align: center;
-    margin-right: 1rem;
     margin-left: 0.3rem;
     padding: 5px;
     background-color: transparent;
@@ -108,18 +121,47 @@ small {
     outline: none;
 }
 
-.conta button {
+.conta div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.conta div div:first-child {
+    flex-direction: row;
+    height: 10px;
+}
+
+.excluir {
     font-family: 'Inter';
     border: none;
     text-transform: uppercase;
-    font-weight: 1000;
+    font-weight: 500;
     color: rgb(255, 255, 255);
-    background-color: #800505;
-    padding: 5px 15px;
-    border-radius: 8px;
+    background-color: #232323;
+    padding: 5px 10px;
+    margin-left: 10px;
+    border-radius: 5px;
 }
 
-.conta button:hover {
+.excluir:hover {
+    background-color: #800000;
+    transition: 300ms;
+    cursor: pointer;
+}
+
+.clipboard {
+    border: none;
+    background-color: transparent;
+}
+
+.clipboard img {
+    vertical-align: middle;
+    width: 15px;
+}
+
+.clipboard :hover {
     opacity: 60%;
     transition: 300ms;
     cursor: pointer;
