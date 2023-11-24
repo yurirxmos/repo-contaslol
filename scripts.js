@@ -32,7 +32,6 @@ function carregarDadosSalvos() {
     pesquisarElos();
 }
 
-// Função para criar uma nova conta e preenchê-la com dados (se fornecidos)
 function adicionarConta(dadosConta) {
     var novoID = 'conta' + (document.querySelectorAll('.conta').length + 1);
     var novoConta = document.createElement('div');
@@ -40,7 +39,7 @@ function adicionarConta(dadosConta) {
     novoConta.id = novoID;
 
     var campos = [
-        { label: 'RiotID', classe: 'nick' },
+        { label: 'RiotID#00000', classe: 'nick' },
         { label: 'Login', classe: 'login' },
         { label: 'Senha', classe: 'senha' }
     ];
@@ -89,22 +88,25 @@ function adicionarConta(dadosConta) {
     // Adicionar campo de Elo
     var divElo = document.createElement('div');
 
+    // Adicionar div para a label de Elo
+    var divLabelElo = document.createElement('div');
     var eloLabel = document.createElement('label');
     eloLabel.textContent = 'Elo';
+    divLabelElo.appendChild(eloLabel);
 
+    divElo.appendChild(divLabelElo);
+
+    // Adicionar div para o input de Elo
+    var divInputElo = document.createElement('div');
     var eloInput = document.createElement('input');
     eloInput.type = 'text';
     eloInput.className = 'elo';
     eloInput.disabled = true;
 
-    // Preencher o campo Elo se dados foram fornecidos
-    if (dadosConta && dadosConta.elo) {
-        eloInput.value = dadosConta.elo;
-    }
 
-    divElo.appendChild(eloLabel);
-    divElo.appendChild(eloInput);
+    divInputElo.appendChild(eloInput);
 
+    divElo.appendChild(divInputElo);
     novoConta.appendChild(divElo);
 
     // Adicionar botão de exclusão
@@ -118,8 +120,10 @@ function adicionarConta(dadosConta) {
     novoConta.appendChild(excluirButton);
 
     document.getElementById('contaBloco').appendChild(novoConta);
-}
 
+    // Pesquisar Elo após adicionar conta
+    pesquisarElos();
+}
 
 
 
@@ -269,13 +273,17 @@ function ocultarSenhas() {
         }
     });
 
-    var botao = document.querySelector('#botaoOcultar');
-    if (botao.textContent === 'OCULTAR') {
-        botao.textContent = 'MOSTRAR';
+    var botao = document.getElementById('botaoOcultar');
+    if (botao.textContent.trim() === 'OCULTAR SENHAS') {
+        botao.innerHTML = '<img src="/img/mostrar.png" alt="Mostrar Senhas" /> MOSTRAR SENHAS';
     } else {
-        botao.textContent = 'OCULTAR';
+        botao.innerHTML = '<img src="/img/ocultar.png" alt="Ocultar Senhas" /> OCULTAR SENHAS';
     }
 }
+
+
+
+
 
 // Função para carregar as informações a partir de um arquivo
 function carregarInformacoesDoArquivo() {

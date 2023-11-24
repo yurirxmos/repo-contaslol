@@ -64,7 +64,7 @@ small {
 .alertaTemporario {
     position: fixed;
     text-align: center;
-    top: 15%;
+    bottom: 0%;
     left: 50%;
     transform: translateX(-50%);
 
@@ -177,10 +177,15 @@ small {
 }
 
 .acoes button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
     font-family: 'Inter';
     border: none;
     text-transform: uppercase;
-    font-weight: 1000;
+    font-size: 11px;
+    font-weight: 700;
     color: rgb(255, 255, 255);
     background-color: rgb(56, 56, 56);
     padding: 6px 2rem;
@@ -191,4 +196,8 @@ small {
     background-color: var(--primaria);
     transition: 500ms;
     cursor: pointer;
+}
+
+.acoes img {
+    width: 13px;
 }
