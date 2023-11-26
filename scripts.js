@@ -190,7 +190,7 @@ function pesquisarElos() {
     });
 }
 
-// Função para pesquisar o Elo do jogador
+// Função para pesquisar o Elo e LP do jogador
 function pesquisarJogador(nick, eloInput) {
     const API_KEY = "RGAPI-7baeb44a-4ade-4482-b126-2bb126cdbe11";
 
@@ -205,10 +205,11 @@ function pesquisarJogador(nick, eloInput) {
                     if (data.length > 0) {
                         var tier = data[0].tier;
                         var rank = data[0].rank;
+                        var leaguePoints = data[0].leaguePoints;
                         var eloTraduzido = traduzirElo(tier, rank);
 
                         // Preencher o campo de elo desativado
-                        eloInput.value = eloTraduzido;
+                        eloInput.value = eloTraduzido + ' ' + leaguePoints + ' PDL';
                     } else {
                         console.log('O jogador não tem entradas de liga');
                     }
@@ -221,6 +222,7 @@ function pesquisarJogador(nick, eloInput) {
             console.log('Erro na obtenção do ID do jogador', error);
         });
 }
+
 
 // Função para traduzir o elo para o formato desejado
 function traduzirElo(tier, rank) {
