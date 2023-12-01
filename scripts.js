@@ -193,33 +193,39 @@ function pesquisarElos() {
 // Função para pesquisar o Elo e LP do jogador
 function pesquisarJogador(nick, eloInput) {
     const API_KEY = "RGAPI-7baeb44a-4ade-4482-b126-2bb126cdbe11";
+    const [nomeUsuario, tagline] = nick.split('#');
 
-    fetch('https://br1.api.riotgames.com/lol/summoner/v4/summoners/by-name/' + encodeURIComponent(nick) + '?api_key=' + API_KEY)
-        .then(response => response.json())
+    fetch('https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/' + encodeURIComponent(nomeUsuario) + '/' + encodeURIComponent(tagline) + '?api_key=' + API_KEY)
         .then(data => {
-            var jogadorId = data.id;
-
-            fetch('https://br1.api.riotgames.com/lol/league/v4/entries/by-summoner/' + jogadorId + '?api_key=' + API_KEY)
-                .then(response => response.json())
+        
+            fetch('https://br1.api.riotgames.com/lol/league/v4/entries/by-puuid/' + data.puuid + '?api_key=' + API_KEY)
                 .then(data => {
-                    if (data.length > 0) {
-                        var tier = data[0].tier;
-                        var rank = data[0].rank;
-                        var leaguePoints = data[0].leaguePoints;
-                        var eloTraduzido = traduzirElo(tier, rank);
 
-                        // Preencher o campo de elo desativado
-                        eloInput.value = eloTraduzido + ' ' + leaguePoints + ' PDL';
-                    } else {
-                        console.log('O jogador não tem entradas de liga');
-                    }
+                    fetch('https://br1.api.riotgames.com/lol/league/v4/entries/by-summoner/' + data.id + '?api_key=' + API_KEY)
+                        .then(data => {
+                            if (data.length > 0) {
+                                var tier = data[0].tier;
+                                var rank = data[0].rank;
+                                var leaguePoints = data[0].leaguePoints;
+                                var eloTraduzido = traduzirElo(tier, rank);
+
+                                eloInput.value = eloTraduzido + ' ' + leaguePoints + ' PDL';
+                            } else {
+                                eloInput.value = 'Não ranqueado';
+                            }
+                        })
+                        .catch(error => {
+                            console.log('Erro na obtenção das informações da liga do jogador\n', error);
+                        });
+
                 })
                 .catch(error => {
-                    console.log('Erro na obtenção das informações da liga do jogador', error);
+                    console.log('Erro na obtenção das informações da liga do jogador\n', error);
                 });
+
         })
         .catch(error => {
-            console.log('Erro na obtenção do ID do jogador', error);
+            console.log('Erro na obtenção do PUUID do jogador\n', error);
         });
 }
 
