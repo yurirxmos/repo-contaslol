@@ -214,8 +214,3 @@ function carregarDadosSalvos() {
         adicionarConta(contaSalva);
     });
 }
-
-
-// Event listener para o botão de upload
-var uploadButton = document.getElementById('uploadButton');
-uploadButton.addEventListener('click', carregarInformacoesDoArquivo);
