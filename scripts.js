@@ -167,23 +167,6 @@ function exibirAlertaTemporario(mensagem, tempo) {
 function excluirConta(idConta) {
     var contaASerExcluida = document.getElementById(idConta);
     contaASerExcluida.parentNode.removeChild(contaASerExcluida);
-
-    // Após excluir a conta, pesquisar o OPGG para todos os RiotIDs
-    pesquisarOPGG();
-}
-
-// Função para pesquisar OPGG para todos os RiotIDs
-function pesquisarOPGG() {
-    var contaElements = document.querySelectorAll('.conta');
-
-    contaElements.forEach(function (contaElement) {
-        var nickInput = contaElement.querySelector('.nick');
-
-        if (nickInput.value.trim() !== '') {
-            var opggButton = contaElement.querySelector('.opgg');
-            opggButton.href = 'https://www.op.gg/summoner/userName=' + encodeURIComponent(nickInput.value.replace("#", "-"));
-        }
-    });
 }
 
 // Carregar os dados salvos ao iniciar a página
