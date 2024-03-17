@@ -15,23 +15,9 @@ function salvarModificacoes() {
 
     localStorage.setItem('contasLOL', JSON.stringify(contas));
     console.log('Contas salvas:', contas);
-
-    // Após salvar, pesquisar o Elo para todos os RiotIDs
-    pesquisarElos();
 }
 
-// Função para carregar os dados do localStorage e preencher os campos
-function carregarDadosSalvos() {
-    var contasSalvas = JSON.parse(localStorage.getItem('contasLOL')) || [];
-
-    contasSalvas.forEach(function (contaSalva) {
-        adicionarConta(contaSalva);
-    });
-
-    // Após carregar os dados salvos, pesquisar o Elo para todos os RiotIDs
-    pesquisarElos();
-}
-
+// Função para adicionar uma nova conta
 function adicionarConta(dadosConta) {
     var novoID = 'conta' + (document.querySelectorAll('.conta').length + 1);
     var novoConta = document.createElement('div');
@@ -85,29 +71,20 @@ function adicionarConta(dadosConta) {
         novoConta.appendChild(divCampo);
     });
 
-    // Adicionar campo de Elo
-    var divElo = document.createElement('div');
+    // Adicionar campo de OPGG
+    var divOpgg = document.createElement('div');
 
-    // Adicionar div para a label de Elo
-    var divLabelElo = document.createElement('div');
-    var eloLabel = document.createElement('label');
-    eloLabel.textContent = 'Elo';
-    divLabelElo.appendChild(eloLabel);
+    // Adicionar botão para OPGG
+    var opggButton = document.createElement('a');
+    opggButton.className = 'opgg';
+    opggButton.textContent = 'OP.GG';
+    opggButton.onclick = function () {
+        var nick = novoConta.querySelector('.nick').value;
+        window.open('https://www.op.gg/summoners/br/' + encodeURIComponent(nick.replace("#", "-")), '_blank');
+    };
+    divOpgg.appendChild(opggButton);
 
-    divElo.appendChild(divLabelElo);
-
-    // Adicionar div para o input de Elo
-    var divInputElo = document.createElement('div');
-    var eloInput = document.createElement('input');
-    eloInput.type = 'text';
-    eloInput.className = 'elo';
-    eloInput.disabled = true;
-
-
-    divInputElo.appendChild(eloInput);
-
-    divElo.appendChild(divInputElo);
-    novoConta.appendChild(divElo);
+    novoConta.appendChild(divOpgg);
 
     // Adicionar botão de exclusão
     var excluirButton = document.createElement('button');
@@ -120,12 +97,7 @@ function adicionarConta(dadosConta) {
     novoConta.appendChild(excluirButton);
 
     document.getElementById('contaBloco').appendChild(novoConta);
-
-    // Pesquisar Elo após adicionar conta
-    pesquisarElos();
 }
-
-
 
 // Função para copiar o valor para a área de transferência
 function copiarParaClipboard(tipo, divConta) {
@@ -173,79 +145,6 @@ function exibirAlertaTemporario(mensagem, tempo) {
 function excluirConta(idConta) {
     var contaASerExcluida = document.getElementById(idConta);
     contaASerExcluida.parentNode.removeChild(contaASerExcluida);
-
-    // Após excluir a conta, pesquisar o Elo para todos os RiotIDs
-    pesquisarElos();
-}
-
-// Função para pesquisar o Elo de todas as contas
-function pesquisarElos() {
-    var contaElements = document.querySelectorAll('.conta');
-
-    contaElements.forEach(function (contaElement) {
-        var nickInput = contaElement.querySelector('.nick');
-        var eloInput = contaElement.querySelector('.elo');
-
-        pesquisarJogador(nickInput.value, eloInput);
-    });
-}
-
-// Função para pesquisar o Elo e LP do jogador
-function pesquisarJogador(nick, eloInput) {
-    const API_KEY = "RGAPI-7baeb44a-4ade-4482-b126-2bb126cdbe11";
-    const [nomeUsuario, tagline] = nick.split('#');
-
-    fetch('https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/' + encodeURIComponent(nomeUsuario) + '/' + encodeURIComponent(tagline) + '?api_key=' + API_KEY)
-        .then(data => {
-        
-            fetch('https://br1.api.riotgames.com/lol/league/v4/entries/by-puuid/' + data.puuid + '?api_key=' + API_KEY)
-                .then(data => {
-
-                    fetch('https://br1.api.riotgames.com/lol/league/v4/entries/by-summoner/' + data.id + '?api_key=' + API_KEY)
-                        .then(data => {
-                            if (data.length > 0) {
-                                var tier = data[0].tier;
-                                var rank = data[0].rank;
-                                var leaguePoints = data[0].leaguePoints;
-                                var eloTraduzido = traduzirElo(tier, rank);
-
-                                eloInput.value = eloTraduzido + ' ' + leaguePoints + ' PDL';
-                            } else {
-                                eloInput.value = 'Não ranqueado';
-                            }
-                        })
-                        .catch(error => {
-                            console.log('Erro na obtenção das informações da liga do jogador\n', error);
-                        });
-
-                })
-                .catch(error => {
-                    console.log('Erro na obtenção das informações da liga do jogador\n', error);
-                });
-
-        })
-        .catch(error => {
-            console.log('Erro na obtenção do PUUID do jogador\n', error);
-        });
-}
-
-
-// Função para traduzir o elo para o formato desejado
-function traduzirElo(tier, rank) {
-    const elosTraducoes = {
-        IRON: 'Ferro',
-        BRONZE: 'Bronze',
-        SILVER: 'Prata',
-        GOLD: 'Ouro',
-        PLATINUM: 'Platina',
-        EMERALD: 'Esmeralda',
-        DIAMOND: 'Diamante',
-        MASTER: 'Mestre',
-        GRANDMASTER: 'Grão-Mestre',
-        CHALLENGER: 'Desafiante'
-    };
-
-    return elosTraducoes[tier.toUpperCase()] + ' ' + rank;
 }
 
 // Carregar os dados salvos ao iniciar a página
@@ -269,29 +168,6 @@ function baixarInformacoes() {
     link.download = 'informacoes_contas.txt';
     link.click();
 }
-
-function ocultarSenhas() {
-    var senhas = document.querySelectorAll('.senha');
-
-    senhas.forEach(function (senha) {
-        if (senha.type === 'password') {
-            senha.type = 'text';
-        } else {
-            senha.type = 'password';
-        }
-    });
-
-    var botao = document.getElementById('botaoOcultar');
-    if (botao.textContent.trim() === 'OCULTAR SENHAS') {
-        botao.innerHTML = '<img src="/img/mostrar.png" alt="Mostrar Senhas" /> MOSTRAR SENHAS';
-    } else {
-        botao.innerHTML = '<img src="/img/ocultar.png" alt="Ocultar Senhas" /> OCULTAR SENHAS';
-    }
-}
-
-
-
-
 
 // Função para carregar as informações a partir de um arquivo
 function carregarInformacoesDoArquivo() {

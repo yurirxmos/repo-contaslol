@@ -99,7 +99,7 @@ small {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: rgb(24, 24, 24);
+    background-color: #181818;
     border-radius: 10px;
     padding: 1rem;
     margin: 0.3rem;
@@ -187,7 +187,7 @@ small {
     font-size: 11px;
     font-weight: 700;
     color: rgb(255, 255, 255);
-    background-color: rgb(56, 56, 56);
+    background-color: #383838;
     padding: 6px 2rem;
     border-radius: 8px;
 }
@@ -200,4 +200,21 @@ small {
 
 .acoes img {
     width: 13px;
+}
+
+.conta div a {
+    background-color: #006eff;
+    color: white;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 5px 10px;
+    margin-left: 10px;
+    text-decoration: none;
+    border-radius: 10px;
+}
+
+.conta div a:hover {
+    filter: brightness(70%);
+    transition: 600ms;
+    cursor: pointer;
 }
