@@ -80,7 +80,7 @@ function adicionarConta(dadosConta) {
     opggButton.textContent = 'OP.GG';
     opggButton.onclick = function () {
         var nick = novoConta.querySelector('.nick').value;
-        window.open('https://www.op.gg/summoner/userName=' + encodeURIComponent(nick.replace("#", "-")), '_blank');
+        window.open('https://www.op.gg/summoners/br/' + encodeURIComponent(nick.replace("#", "-")), '_blank');
     };
     divOpgg.appendChild(opggButton);
 
