@@ -98,8 +98,6 @@ function adicionarConta(dadosConta) {
 
     document.getElementById('contaBloco').appendChild(novoConta);
 
-    // Pesquisar OPGG após adicionar conta
-    pesquisarOPGG();
 }
 
 // Função para copiar o valor para a área de transferência
