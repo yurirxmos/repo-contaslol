@@ -197,7 +197,7 @@ function baixarInformacoes() {
     contasSalvas.forEach(function (contaSalva) {
         texto += 'Nick: ' + contaSalva.nick + '\n';
         texto += 'Login: ' + contaSalva.login + '\n';
-        texto += 'Senha: ' + contaSalva.senha + '\n';
+        texto += 'Senha: ' + contaSalva.senha + '\n' + '\n';
     });
 
     var blob = new Blob([texto], { type: 'text/plain' });
