@@ -143,9 +143,9 @@ function ocultarSenhas() {
 
     var botao = document.getElementById('botaoOcultar');
     if (botao.textContent.trim() === 'OCULTAR SENHAS') {
-        botao.innerHTML = '<img src="/img/mostrar.png" alt="Mostrar Senhas" /> MOSTRAR SENHAS';
+        botao.innerHTML = '<img src="/img/mostrar.png" alt="Mostrar Senhas" /> MOSTRAR';
     } else {
-        botao.innerHTML = '<img src="/img/ocultar.png" alt="Ocultar Senhas" /> OCULTAR SENHAS';
+        botao.innerHTML = '<img src="/img/ocultar.png" alt="Ocultar Senhas" /> OCULTAR';
     }
 }
 
