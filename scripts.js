@@ -80,7 +80,7 @@ function adicionarConta(dadosConta) {
     opggButton.textContent = 'OP.GG';
     opggButton.onclick = function () {
         var nick = novoConta.querySelector('.nick').value;
-        window.open('https://www.op.gg/summoners/br/' + encodeURIComponent(nick.replace("#", "-")), '_blank');
+        window.open('https://www.op.gg/summoner/userName=' + encodeURIComponent(nick.replace("#", "-")), '_blank');
     };
     divOpgg.appendChild(opggButton);
 
@@ -97,6 +97,9 @@ function adicionarConta(dadosConta) {
     novoConta.appendChild(excluirButton);
 
     document.getElementById('contaBloco').appendChild(novoConta);
+
+    // Pesquisar OPGG após adicionar conta
+    pesquisarOPGG();
 }
 
 // Função para copiar o valor para a área de transferência
@@ -127,6 +130,25 @@ function copiarParaClipboard(tipo, divConta) {
     }
 }
 
+function ocultarSenhas() {
+    var senhas = document.querySelectorAll('.senha');
+
+    senhas.forEach(function (senha) {
+        if (senha.type === 'password') {
+            senha.type = 'text';
+        } else {
+            senha.type = 'password';
+        }
+    });
+
+    var botao = document.getElementById('botaoOcultar');
+    if (botao.textContent.trim() === 'OCULTAR SENHAS') {
+        botao.innerHTML = '<img src="/img/mostrar.png" alt="Mostrar Senhas" /> MOSTRAR SENHAS';
+    } else {
+        botao.innerHTML = '<img src="/img/ocultar.png" alt="Ocultar Senhas" /> OCULTAR SENHAS';
+    }
+}
+
 // Função para exibir um alerta temporário acima de contaBloco
 function exibirAlertaTemporario(mensagem, tempo) {
     var alerta = document.createElement('div');
@@ -145,6 +167,23 @@ function exibirAlertaTemporario(mensagem, tempo) {
 function excluirConta(idConta) {
     var contaASerExcluida = document.getElementById(idConta);
     contaASerExcluida.parentNode.removeChild(contaASerExcluida);
+
+    // Após excluir a conta, pesquisar o OPGG para todos os RiotIDs
+    pesquisarOPGG();
+}
+
+// Função para pesquisar OPGG para todos os RiotIDs
+function pesquisarOPGG() {
+    var contaElements = document.querySelectorAll('.conta');
+
+    contaElements.forEach(function (contaElement) {
+        var nickInput = contaElement.querySelector('.nick');
+
+        if (nickInput.value.trim() !== '') {
+            var opggButton = contaElement.querySelector('.opgg');
+            opggButton.href = 'https://www.op.gg/summoner/userName=' + encodeURIComponent(nickInput.value.replace("#", "-"));
+        }
+    });
 }
 
 // Carregar os dados salvos ao iniciar a página
@@ -159,7 +198,6 @@ function baixarInformacoes() {
         texto += 'Nick: ' + contaSalva.nick + '\n';
         texto += 'Login: ' + contaSalva.login + '\n';
         texto += 'Senha: ' + contaSalva.senha + '\n';
-        texto += 'Elo: ' + contaSalva.elo + '\n\n';
     });
 
     var blob = new Blob([texto], { type: 'text/plain' });
@@ -169,43 +207,14 @@ function baixarInformacoes() {
     link.click();
 }
 
-// Função para carregar as informações a partir de um arquivo
-function carregarInformacoesDoArquivo() {
-    var input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.txt';
-    input.addEventListener('change', function () {
-        var file = input.files[0];
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                var content = e.target.result;
-                preencherCamposComInformacoes(content);
-            };
-            reader.readAsText(file);
-        }
-    });
-    input.click();
-}
+function carregarDadosSalvos() {
+    var contasSalvas = JSON.parse(localStorage.getItem('contasLOL')) || [];
 
-// Função para preencher os campos com as informações do arquivo
-function preencherCamposComInformacoes(content) {
-    var contas = content.split('\n\n');
-
-    contas.forEach(function (conta) {
-        var linhas = conta.split('\n');
-        var dadosConta = {};
-
-        linhas.forEach(function (linha) {
-            var [chave, valor] = linha.split(': ');
-            if (chave && valor) {
-                dadosConta[chave.toLowerCase()] = valor;
-            }
-        });
-
-        adicionarConta(dadosConta);
+    contasSalvas.forEach(function (contaSalva) {
+        adicionarConta(contaSalva);
     });
 }
+
 
 // Event listener para o botão de upload
 var uploadButton = document.getElementById('uploadButton');
