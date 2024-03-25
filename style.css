@@ -64,26 +64,33 @@ small {
 .alertaTemporario {
     position: fixed;
     text-align: center;
-    bottom: 0%;
-    left: 50%;
-    transform: translateX(-50%);
-
+    margin: 1rem;
+    top: 0%;
+    right: 0;
+    border-radius: 10px;
     font-size: 12px;
-    background-color: #008000;
+    background-color: #009b00;
     padding: 0.7rem;
-    width: 100%;
+    width: 20%;
     z-index: 1000;
 }
 
 #contaBloco {
-    margin-top: 10rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
 }
 
-#contaBloco h2 {
+.slogan {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10rem;
+}
+
+.slogan h2 {
     font-size: 16px;
     font-weight: 400;
 }
@@ -96,13 +103,15 @@ small {
 
 .conta {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #181818;
+    gap: 10px;
     border-radius: 10px;
     padding: 1rem;
     margin: 0.3rem;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .conta input {
@@ -121,35 +130,14 @@ small {
     outline: none;
 }
 
-.conta div {
+.campo {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.conta div div:first-child {
-    flex-direction: row;
-    height: 10px;
-}
 
-.excluir {
-    font-family: 'Inter';
-    border: none;
-    text-transform: uppercase;
-    font-weight: 500;
-    color: rgb(255, 255, 255);
-    background-color: #232323;
-    padding: 5px 10px;
-    margin-left: 10px;
-    border-radius: 5px;
-}
-
-.excluir:hover {
-    background-color: #800000;
-    transition: 300ms;
-    cursor: pointer;
-}
 
 .clipboard {
     border: none;
@@ -202,19 +190,44 @@ small {
     width: 13px;
 }
 
-.conta div a {
+.botoes a {
     background-color: #006eff;
     color: white;
     font-weight: 800;
     font-size: 13px;
     padding: 5px 10px;
-    margin-left: 10px;
     text-decoration: none;
     border-radius: 10px;
 }
 
-.conta div a:hover {
+.botoes a:hover {
     filter: brightness(70%);
     transition: 600ms;
+    cursor: pointer;
+}
+
+.botoes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 15px;
+}
+
+#excluir {
+    font-family: 'Inter';
+    border: none;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: rgb(255, 255, 255);
+    background-color: #232323;
+    padding: 5px 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+}
+
+#excluir:hover {
+    background-color: #800000;
+    transition: 300ms;
     cursor: pointer;
 }

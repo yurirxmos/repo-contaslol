@@ -1,4 +1,4 @@
-// Função para armazenar as modificações nos campos, exceto o Elo
+// Função para armazenar as modificações nos campos, exceto o Elo.conta
 function salvarModificacoes() {
     var contas = [];
     var contaElements = document.querySelectorAll('.conta');
@@ -23,6 +23,7 @@ function adicionarConta(dadosConta) {
     var novoConta = document.createElement('div');
     novoConta.className = 'conta';
     novoConta.id = novoID;
+    novoConta.draggable = true;
 
     var campos = [
         { label: 'RiotID#00000', classe: 'nick' },
@@ -32,9 +33,11 @@ function adicionarConta(dadosConta) {
 
     campos.forEach(function (campo) {
         var divCampo = document.createElement('div');
+        divCampo.className = 'campo';
 
         // Adicionar div para a label e o botão
         var divLabelBotao = document.createElement('div');
+
 
         var label = document.createElement('label');
         label.textContent = campo.label;
@@ -71,8 +74,9 @@ function adicionarConta(dadosConta) {
         novoConta.appendChild(divCampo);
     });
 
-    // Adicionar campo de OPGG
-    var divOpgg = document.createElement('div');
+    // Adicionar div "botoes"
+    var divBotoes = document.createElement('div');
+    divBotoes.className = 'botoes';
 
     // Adicionar botão para OPGG
     var opggButton = document.createElement('a');
@@ -82,22 +86,25 @@ function adicionarConta(dadosConta) {
         var nick = novoConta.querySelector('.nick').value;
         window.open('https://www.op.gg/summoners/br/' + encodeURIComponent(nick.replace("#", "-")), '_blank');
     };
-    divOpgg.appendChild(opggButton);
+    divBotoes.appendChild(opggButton);
 
-    novoConta.appendChild(divOpgg);
-
-    // Adicionar botão de exclusão
+    // Adicionar botão de exclusão dentro da div "botoes"
     var excluirButton = document.createElement('button');
     excluirButton.textContent = 'X';
-    excluirButton.className = 'excluir';
+    excluirButton.id = 'excluir';
     excluirButton.onclick = function () {
         excluirConta(novoID);
     };
+    divBotoes.appendChild(excluirButton);
 
-    novoConta.appendChild(excluirButton);
+    novoConta.appendChild(divBotoes);
+
+    // Adicionar manipuladores de eventos para arrastar e soltar
+    novoConta.addEventListener("dragstart", iniciarArrastar);
+    novoConta.addEventListener("dragover", permitirSoltar);
+    novoConta.addEventListener("drop", soltar);
 
     document.getElementById('contaBloco').appendChild(novoConta);
-
 }
 
 // Função para copiar o valor para a área de transferência
@@ -124,7 +131,7 @@ function copiarParaClipboard(tipo, divConta) {
         document.body.removeChild(inputTemporario);
 
         // Exibir mensagem temporária
-        exibirAlertaTemporario('Texto copiado para a área de transferência.', 3000);
+        exibirAlertaTemporario('Texto copiado para a área de transferência.', 2000);
     }
 }
 
@@ -167,6 +174,34 @@ function excluirConta(idConta) {
     contaASerExcluida.parentNode.removeChild(contaASerExcluida);
 }
 
+// Função para iniciar o arrastar
+function iniciarArrastar(event) {
+    event.dataTransfer.setData("text", event.target.id);
+}
+
+// Função para permitir soltar
+function permitirSoltar(event) {
+    event.preventDefault();
+}
+
+// Função para soltar a div arrastada
+function soltar(event) {
+    event.preventDefault();
+    var data = event.dataTransfer.getData("text");
+    var divArrastada = document.getElementById(data);
+    var divAlvo = event.target.closest('.conta');
+
+    if (divArrastada && divAlvo) {
+        if (divArrastada !== divAlvo) {
+            if (event.clientY < divAlvo.getBoundingClientRect().top + divAlvo.offsetHeight / 2) {
+                divAlvo.parentNode.insertBefore(divArrastada, divAlvo);
+            } else {
+                divAlvo.parentNode.insertBefore(divArrastada, divAlvo.nextSibling);
+            }
+        }
+    }
+}
+
 // Carregar os dados salvos ao iniciar a página
 carregarDadosSalvos();
 
@@ -195,3 +230,4 @@ function carregarDadosSalvos() {
         adicionarConta(contaSalva);
     });
 }
+
