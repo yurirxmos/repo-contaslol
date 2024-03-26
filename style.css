@@ -232,3 +232,49 @@ small {
     transition: 300ms;
     cursor: pointer;
 }
+
+@media screen and (max-width: 768px) {
+    .logo h1 {
+        font-size: 30px;
+    }
+
+    .logo h2 {
+        font-size: 30px;
+    }
+
+    .logo img {
+        width: 20px;
+    }
+
+    .alertaTemporario {
+        top: 20%;
+        right: 0;
+        left: 0;
+        background-color: #009b00;
+        width: auto;
+    }
+
+    #contaBloco {
+        margin: 0 2rem;
+    }
+
+    .conta input {
+        width: 100px;
+    }
+
+    .acoes button {
+        padding: 6px 1.5rem;
+    }
+
+    #excluir {
+        padding: 5px 8px;
+    }
+
+    .header small {
+        display: none;
+    }
+    
+    #contaBloco {
+        margin: 0;
+    }
+}
