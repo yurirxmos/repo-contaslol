@@ -6,15 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="./style.css" />
     <link rel="icon" type="image/png" href="/img/logo.png" />
-    <title>ContasLOL | Início</title>
+    <title>ContasLOL</title>
   </head>
   <body>
-    <div class="header">
-      <small
-        >developed with <b style="color: #e7be08"><3</b> <br />by
-        @yurirxmos</small
-      >
-
+    <header>
       <div class="logo">
         <img src="/img/logo.png" />
         <h1>REPO</h1>
@@ -23,19 +18,19 @@
 
       <div class="acoes">
         <button onclick="salvarModificacoes()">
-          <img src="/img/salvar.png" alt="salvar"/>
-          Salvar 
+          <img src="/img/salvar.png" alt="salvar" />
+          Salvar
         </button>
         <button onclick="baixarInformacoes()">
-          <img src="/img/baixar.png" alt="baixar"/>
-          Baixar 
+          <img src="/img/baixar.png" alt="baixar" />
+          Baixar
         </button>
         <button id="botaoOcultar" onclick="ocultarSenhas()">
-          <img src="/img/ocultar.png" alt="ocultar"/>
-          OCULTAR 
+          <img src="/img/ocultar.png" alt="ocultar" />
+          OCULTAR
         </button>
       </div>
-    </div>
+    </header>
 
     <div class="slogan">
       <h2>
@@ -44,14 +39,42 @@
       </h2>
     </div>
 
-    <div id="contaBloco">
-      
-    </div>
+    <div id="contaBloco"></div>
 
     <div class="acoes">
       <button onclick="adicionarConta()">+</button>
     </div>
 
+    <div class="background"></div>
+
+    <footer>
+      <div class="aviso">
+        <p>
+          "Qualquer dado contido no site é inacessível para o
+          <br />desenvolvedor <a onclick="mostrarAviso()">clique aqui</a> para
+          entender mais."
+        </p>
+      </div>
+
+      <img src="/img/logo.png" />
+
+      <div class="copy">
+        <p>
+          developed with <b style="color: #e7be08"><3</b> <br />by @yurirxmos
+        </p>
+      </div>
+      <span class="tooltiptext" style="display: none">
+        <h3><b>NÃO</b> GUARDAMOS INFORMAÇÕES SOBRE SUAS CONTAS!</h3>
+        "É importante esclarecer que <b>não possuo acesso ao conteúdo armazenado </b>no
+        site. O referido site emprega uma tecnologia (localStorage) que armazena as
+        informações diretamente no navegador do cliente. Portanto, qualquer dado
+        ou informação contida no site é <b>inacessível</b> para o desenvolvedor."
+        <br>
+        <a onclick="fecharAviso()">✘</a>
+      </span>
+    </footer>
+
+    
     <script src="/scripts.js"></script>
   </body>
 </html>

@@ -25,6 +25,13 @@ function adicionarConta(dadosConta) {
     novoConta.id = novoID;
     novoConta.draggable = true;
 
+    var divImagem = document.createElement('div');
+    divImagem.className = 'logotipo';
+    var imagem = document.createElement('img');
+    imagem.src = '/img/logo.png';
+    divImagem.appendChild(imagem);
+    novoConta.appendChild(divImagem);
+
     var campos = [
         { label: 'RiotID#00000', classe: 'nick' },
         { label: 'Login', classe: 'login' },
@@ -37,8 +44,6 @@ function adicionarConta(dadosConta) {
 
         // Adicionar div para a label e o botão
         var divLabelBotao = document.createElement('div');
-
-
         var label = document.createElement('label');
         label.textContent = campo.label;
         divLabelBotao.appendChild(label);
@@ -231,3 +236,15 @@ function carregarDadosSalvos() {
     });
 }
 
+// Função para mostrar o tooltip com timer de 1000ms
+function mostrarAviso() {
+    document.querySelector('.background').style.display = 'block';
+    var tooltip = document.querySelector('.tooltiptext');
+    tooltip.style.display = 'block';
+}
+
+function fecharAviso() {
+    document.querySelector('.background').style.display = 'none';
+    var tooltip = document.querySelector('.tooltiptext');
+    tooltip.style.display = 'none';
+}
