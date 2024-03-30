@@ -229,6 +229,18 @@ header {
     width: 13px;
 }
 
+
+.botoes input {
+    width: 30px; /* largura do color picker */
+    height: 26px; /* altura do color picker */
+    border: none; /* remover borda padrão */
+    margin: 0 10px 0 0 ;
+    border-radius: 10px; /* tornar redondo */
+    outline: solid 1px black;
+    cursor: pointer; /* cursor de apontador ao passar o mouse */
+    filter: invert(1);
+}
+
 .botoes a {
     background-color: #006eff;
     color: white;

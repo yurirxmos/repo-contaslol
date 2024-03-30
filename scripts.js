@@ -8,6 +8,7 @@ function salvarModificacoes() {
             nick: contaElement.querySelector('.nick').value,
             login: contaElement.querySelector('.login').value,
             senha: contaElement.querySelector('.senha').value,
+            cor: contaElement.querySelector('.cor-picker').value
         };
 
         contas.push(conta);
@@ -83,6 +84,19 @@ function adicionarConta(dadosConta) {
     var divBotoes = document.createElement('div');
     divBotoes.className = 'botoes';
 
+    // Adicionar o color picker
+    var corPicker = document.createElement('input');
+    var corPickerImg = document.createElement('img');
+    corPickerImg.src = "/img/colorpicker.png"; 
+    corPicker.type = 'color';
+    corPicker.className = 'cor-picker';
+    corPicker.value = '#181818'; // Cor padrão
+    corPicker.addEventListener('change', function () {
+        novoConta.style.backgroundColor = corPicker.value;
+    });
+    corPicker.appendChild(corPickerImg);
+    divBotoes.appendChild(corPicker);
+
     // Adicionar botão para OPGG
     var opggButton = document.createElement('a');
     opggButton.className = 'opgg';
@@ -110,6 +124,16 @@ function adicionarConta(dadosConta) {
     novoConta.addEventListener("drop", soltar);
 
     document.getElementById('contaBloco').appendChild(novoConta);
+
+    // Se houver dados salvos para a cor, aplicar a cor ao carregar
+    if (dadosConta && dadosConta.cor) {
+        novoConta.style.backgroundColor = dadosConta.cor;
+        corPicker.value = dadosConta.cor;
+    }
+
+    if (!novoConta.style.backgroundColor) {
+        novoConta.style.backgroundColor = '#181818';
+    }
 }
 
 // Função para copiar o valor para a área de transferência
@@ -219,6 +243,7 @@ function baixarInformacoes() {
         texto += 'Nick: ' + contaSalva.nick + '\n';
         texto += 'Login: ' + contaSalva.login + '\n';
         texto += 'Senha: ' + contaSalva.senha + '\n' + '\n';
+
     });
 
     var blob = new Blob([texto], { type: 'text/plain' });
